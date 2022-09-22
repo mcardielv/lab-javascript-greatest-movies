@@ -16,18 +16,27 @@ console.log(`1.A list of director of this data is ${getAllDirectors(movies)}`);
 // Iteration 2: Steven Spielberg. The best? - How many drama movies did STEVEN SPIELBERG direct?
 
 //ARROW FUNCTION
-function howManyMovies(moviesArray) {
-  const steven = moviesArray.filter((movieItem) => {
-    return movieItem.director === "Steven Spielberg";
-  });
+// function howManyMovies(moviesArray) {
+//   const steven = moviesArray.filter((movieItem) => {
+//     return movieItem.director === "Steven Spielberg";
+//   });
 
-  const dramaMovies = steven.filter((spielbergMovies) => {
-    return spielbergMovies.genre.includes("Drama");
-  });
+//   const dramaMovies = steven.filter((spielbergMovies) => {
+//     return spielbergMovies.genre.includes("Drama");
+//   });
+//   return dramaMovies;
+// }
+// console.log(howManyMovies(movies));
+//We can try to do the same function with 1 filter instead two
+function howManyMovies(moviesArray) {
+  const dramaMovies = moviesArray.filter(
+    (movieItem) =>
+      movieItem.director === "Steven Spielberg" &&
+      movieItem.genre.includes("Drama")
+  );
   return dramaMovies;
 }
 console.log(howManyMovies(movies));
-
 //REGULAR FUNCTION
 // function howManyMovies(moviesArray) {
 //   const spielberg = howManyMovies.filter(moviesArray);
@@ -41,9 +50,11 @@ console.log(howManyMovies(movies));
 function scoresAverage(moviesArray) {
   let totalSum = 0;
   const scores = moviesArray.map((movie) => movie.score);
+
   for (let i = 0; i < scores.length; i++) {
-    totalSum = totalSum + scores[i];
+    totalSum += scores[i];
   }
+
   const numFixed = totalSum / moviesArray.length;
   return numFixed.toFixed(2);
 }
@@ -56,9 +67,11 @@ function dramaMoviesScore(moviesArray) {
   const dramaMovies = moviesArray.filter((drama) =>
     drama.genre.includes("Drama")
   );
+
   const scores = dramaMovies.map((movie) => movie.score);
   scores.forEach((dramaElement) => (totalSum += dramaElement));
-  const numFixed = totalSum / moviesArray.length;
+
+  const numFixed = totalSum / dramaMovies.length;
   return numFixed.toFixed(2);
   //maybe fix the return instead number returns string parse int?
 }
@@ -66,14 +79,28 @@ console.log(dramaMoviesScore(movies));
 
 // Iteration 5: Ordering by year - Order by year, ascending (in growing order)
 function orderByYear(moviesArray) {
-  const sortedArray = (a, b) =>
-    a.moviesArray.year > b.moviesArray.year ? 1 : -1;
-  return sortedArray;
+  // const sortedArray = (movie1, movie2) => {
+  //   movie1.year < movie2.year ? 1 : -1;
+  // };
+  // return sortedArray;
+  let movieList = [...moviesArray];
+
+  function compare(movie1, movie2) {
+    return movie1.year - movie2.year;
+  }
+  const orderedList = movieList.sort(compare);
+  console.log(orderedList);
+  return orderedList;
 }
-console.log(orderByYear(movies));
+console.log(orderByYear(movies)); //creo que no funciona
 
 // Iteration 6: Alphabetic Order - Order by title and print the first 20 titles
-function orderAlphabetically(moviesArray) {}
+function orderAlphabetically(moviesArray) {
+  return moviesArray
+    .map((movie) => movie.title)
+    .sort()
+    .slice(0, 20);
+}
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
 function turnHoursToMinutes(moviesArray) {}
